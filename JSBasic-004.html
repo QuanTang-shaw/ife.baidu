@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		#display div{
+			display: inline-block;
+            font-size: 30px;
+            text-align: center;
+            padding: 0 15px;
+            margin: 5px 0;
+            margin-right: 10px;
+            height: 50px;
+            line-height: 50px;
+            background-color: red;
+            color: #FFFFFF;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<input type="text">
+		<input type="button" value="左侧入">
+		<input type="button" value="右侧入">
+		<input type="button" value="左侧出">
+		<input type="button" value="右侧出">
+	</div>
+	
+	<div id="display"></div>
+
+	<script>
+	function addHandler(ele,event,fn) {
+		if (ele.addEventListener) {
+			ele.addEventListener(event, fn, false);
+		}
+		else if (ele.attachEvent) {
+			ele.attachEvent('on'+event,fn);
+		}
+		else {
+			ele['on'+event]=fn;
+		}
+	}
+
+/**
+ * 初始化
+ */
+
+ */
+	(function () {
+		
+		var oInput=document.querySelectorAll('input'),
+			oText=oInput[0],
+			oBtn1=oInput[1],
+			oBtn2=oInput[2],
+			oBtn3=oInput[3],
+			oBtn4=oInput[4];
+			text='';
+		
+			addHandler(oBtn1,'click',function () {
+				text=oText.value;
+				(/^[0-9]+$/).test(text)?queue.leftIn(text):alert("请输入数字");
+				
+			});
+			addHandler(oBtn2,'click',function () {
+				text=oText.value;				
+				(/^[0-9]+$/).test(text)?queue.rightIn(text):alert("请输入数字！");			
+			});
+			addHandler(oBtn3,'click',function () {queue.leftOut();});
+			addHandler(oBtn4,'click',function () {queue.rightOut();
+			});
+	})()
+/**
+ * [queue description]创建队列对象
+ */
+	var queue={
+			str:[],
+			display:document.getElementById('display'),			
+			leftIn:function (value) {
+				this.str.unshift(value);
+				this.paint();
+			},
+			rightIn:function (value) {
+				this.str.push(value);
+				this.paint();
+			},
+			isEmpty:function () {
+				return this.str.length==0;
+			},
+			leftOut:function () {
+				if (!this.isEmpty()) {
+					alert(this.str.shift());
+					this.paint();
+				}
+				else{
+					alert("数组已经清空了！");
+				}
+			},
+			rightOut:function () {
+				if (!this.isEmpty()) {
+					alert(this.str.pop());
+					this.paint();
+				}
+				else{
+					alert("数组已经清空了！");
+				}
+			},
+			each:function (arr,fn) {
+				for (var i = 0; i < arr.length; i++) {
+					fn(arr[i],i);
+				}
+			},
+			paint:function () {
+			var str='';
+			this.each(this.str,function (cur) {
+				str+="<div>"+parseInt(cur)+"</div>";
+				});
+			display.innerHTML=str;
+			},
+			delete:function (ID) {
+				this.str.splice(ID, 1);
+				this.paint();
+			},
+			addDel:function () {
+				for (let i = 0; i < this.display.childNodes.length; i++) {
+					addHandler(this.display.children[i],'cliclk',function () {
+						this.delete(i);
+					})
+				}
+			}
+	}
+
+	</script>
+</body>
+</html>
