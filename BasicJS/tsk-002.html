@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		#display div{
+			display: inline-block;            
+            width: 15px;            
+            margin: 50px 0;
+            margin-right: 15px;            
+            background-color: red;
+            color: #FFFFFF;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<input type="text">
+		<input type="button" value="左侧入">
+		<input type="button" value="右侧入">
+		<input type="button" value="左侧出">
+		<input type="button" value="右侧出">
+		<input type="button" value="初始化"></input>
+		<input type="button" value="冒泡排序"></input>
+		<input type="button" value="插入排序"></input>
+	</div>
+	
+	<div id="display"></div>
+
+	<script>
+	function addHandler(ele,event,fn) {
+		if (ele.addEventListener) {
+			ele.addEventListener(event, fn, false);
+		}
+		else if (ele.attachEvent) {
+			ele.attachEvent('on'+event,fn);
+		}
+		else {
+			ele['on'+event]=fn;
+		}
+	}
+
+/**
+ * 初始化
+ */
+
+
+	(function () {
+		
+		var oInput=document.querySelectorAll('input'),
+			oText=oInput[0],
+			oLeftIn=oInput[1],
+			oRightIn=oInput[2],
+			oLeftOut=oInput[3],
+			oRightOut=oInput[4];
+			oReset=oInput[5];
+			oBubbleSort=oInput[6];
+			oInsertSort=oInput[7];
+
+
+			text='';
+		
+			addHandler(window,"load",function () {
+				queue.init();
+			});
+
+			addHandler(oLeftIn,'click',function () {
+				text=oText.value;
+				(/^[0-9]+$/).test(text)?queue.leftIn(text):alert("请输入整数");				
+			});
+			addHandler(oRightIn,'click',function () {
+				text=oText.value;				
+				(/^[0-9]+$/).test(text)?queue.rightIn(text):alert("请输入整数！");			
+			});
+
+			addHandler(oLeftOut,'click',function () {queue.leftOut();});
+			addHandler(oRightOut,'click',function () {queue.rightOut();});
+			addHandler(oReset,'click',function () {queue.str=[];queue.init();});
+			addHandler(oBubbleSort,'click',function () {queue.bubbleSort();});
+			addHandler(oInsertSort,'click',function () {queue.insertSort();});
+
+
+	})()
+/**
+ * [queue description]创建队列对象
+ */
+	var queue={
+			str:[],
+			display:document.getElementById('display'),
+			init:function () {
+				var ranNum=0;
+				for (var i = 0; i < 10; i++) {
+				ranNum=Math.round(Math.random()*90)+10;
+				this.str.push(ranNum);
+				}
+				this.paint();
+			},			
+			leftIn:function (value) {
+				if (!(this.str.length>60)){
+					if (value<10||value>100) {
+						alert(" 请输入10-100之间的数字！");
+					}
+					else{
+						this.str.unshift(value);
+						this.paint();
+					}					
+				}
+				else{
+					alert("不可以超过60个数字哦！");
+				}
+			},
+			rightIn:function (value) {
+				if (!(this.str.length>60)) {
+					if (value<10||value>100) {
+						alert(" 请输入10-100之间的数字！");
+					}
+					else{
+						this.str.push(value);
+						this.paint();
+					}
+				}
+				else{
+					alert("不可以超过60个数字哦！");
+				}				
+			},
+			isEmpty:function () {
+				return this.str.length==0;
+			},
+			leftOut:function () {
+				if (!this.isEmpty()) {
+					alert(this.str.shift());
+					this.paint();
+				}
+				else{
+					alert("数组已经清空了！");
+				}
+			},
+			rightOut:function () {
+				if (!this.isEmpty()) {
+					alert(this.str.pop());
+					this.paint();
+				}
+				else{
+					alert("数组已经清空了！");
+				}
+			},
+			each:function (arr,fn) {
+				for (var i = 0; i < arr.length; i++) {
+					fn(arr[i],i);
+				}
+			},
+			paint:function () {
+				var str='';
+				var fragment=document.createDocumentFragment();
+				this.display.innerHTML='';
+				this.each(this.str,function (cur) {
+					// str+="<div>"+parseInt(cur)+"</div>";
+					var oDiv=document.createElement('div');
+					oDiv.style.height=parseInt(cur)+'px';
+					fragment.appendChild(oDiv);
+				});
+				// display.innerHTML=str;
+				this.display.appendChild(fragment);
+				this.addDel();
+			},
+			delete:function (ID) {
+				this.str.splice(ID, 1);
+				this.paint();
+			},
+			addDel:function () {
+				var _self=this;
+				for (let i = 0; i < this.display.childNodes.length; i++) {
+					addHandler(this.display.children[i],'click',function () {
+						_self.delete(i);
+					})
+				}
+			},
+			bubbleSort:function () {
+				var temp=0,
+					i=this.str.length-1,
+					j=0,
+					timer=null,
+					self=this;
+
+					timer=setInterval(function () {
+						if(i<1){
+							clearInterval(timer);
+						}
+						if(j>=i){
+							i--;
+							j=0;
+						}
+						if(self.str[j]>self.str[j+1]){
+							temp=self.str[j];
+							self.str[j]=self.str[j+1];
+							self.str[j+1]=temp;
+						}
+						j++;
+						self.paint();
+					}, 100);
+			
+				// this.paint();
+			},
+			insertSort:function () {
+				/* body... */
+				var temp=0,
+					i=1,
+					j=1,
+					timer=null,
+					self=this;
+
+					timer=setInterval(function () {
+						if(i>self.str.length){
+							clearInterval(timer);
+						}
+						if(j<1){
+							j=i+1;
+							i++;
+						}
+						if(self.str[j]<self.str[j-1]){
+							temp=self.str[j];
+							self.str[j]=self.str[j-1];
+							self.str[j-1]=temp;
+						}
+						j--;
+						self.paint();
+					}, 100);
+			}
+	}
+
+	</script>
+</body>
+</html>
