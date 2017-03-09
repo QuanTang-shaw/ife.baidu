@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		body{background-color: #8cf0b4}
+		textarea{
+			position: relative;
+			display: block;
+			margin: 20px auto;
+		}
+		.menu{
+			/*position: relative;*/
+			width: 250px;
+			height: 60px;
+			/*border: solid 1px;*/
+			margin: 0px auto;
+		}
+		p{
+			display: inline;
+			/*margin-top: -10px;*/
+		}		
+		#text2{/*height: 30px;*/padding: 8px 5px;width: 80px;}
+		#check,#paint{
+			padding:3px 10px;
+			font-size: 130%;
+			text-align: center;
+			margin-top: 10px;
+		}
+		#display{
+			width: 300px;
+			height: 200px;
+			margin: 0px auto;
+			border: solid 1px;
+		}
+	</style>
+</head>
+<body>
+	<textarea cols="50" rows="10" id="text1"></textarea>
+	<div class="menu">
+		<p><input type="text" id="text2"></p>
+		<input type="button" value="查询" id="check">
+		<input type="button" value="显示" id="paint">
+	</div>
+	<div id="display">
+		
+	</div>
+	<script>
+		/**
+		 * 1.内容：数字、中文、英文；
+		 * 2.回车、逗号、顿号、空格等分割内容；
+		 * 3.查询功能，可以模糊匹配，查询到的结果进行特殊标识；
+		 */
+
+		 var $=function (ele) {
+		 	return document.querySelector(ele);
+		 }
+
+		 $("#paint").onclick=function () {
+		 	var text=$("#text1").value,
+		 		arr=text.split(/[^0-9a-zA-Z\u4e00-\u9fa5]+/),
+		 		paintText='';
+		 		 for (var i = 0; i < arr.length; i++) {
+		 		 		paintText+='<div>'+arr[i] +'</div>'; 
+		 		 	}	
+		 		$("#display").innerHTML=paintText;
+		 }
+		 $("#check").onclick=function () {
+		 	var text1=$("#text1").value,
+		 		arr=text1.split(/[^0-9a-zA-Z\u4e00-\u9fa5]+/),
+		 		str=arr.toString(),
+		 		text2=$("#text2").value;
+
+		 	var mtxt=text1.match(text2);
+		 	mtxt.toString().fontcolor("red");
+		 		console.log(mtxt.toString());
+		 		
+		 }
+
+	</script>
+</body>
+</html>

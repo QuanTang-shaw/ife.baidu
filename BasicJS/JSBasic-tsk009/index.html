@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	body{background-color: black;}
+	.wrap,.child-a,.child-b,.child-c,.child-add{display: flex;justify-content:center;border: solid 1px;}
+	.child-a,.child-b,.child-c,.child-d{border: dotted 1px #FEF1F9;margin:20px auto;}
+	.a1{width: 600px; }.a2{width: 480px;}.a3{width: 150px;}
+	.b1{width: 260px;}.b2{width: 90px;}.b3{width: 170px;}.b4{width: 220px;}.b5{width: 210px;}
+	.c1{width:50px;height: 100px;}.c2{width:100px;height: 100px;}
+	.d{width: 50px;}
+	.wrap{width: 1300px;margin: 30px auto;background-color:#EA2EA5;color:#ffffff;font-weight: bolder; }
+	span{margin-top: 15px;color:#ffffff;font-weight: bolder;}
+	.control{display: flex;justify-content:center;align-items:center;width:700px;
+		height:80px;margin:20px auto;background-color:#E6E6FA;}
+	.control input{padding: 8px 15px;font-size: 120%;margin: 0px auto}
+	.explore{width: 80px;}
+	.found{background-color: red;}
+	.edit{display: flex;justify-content:center;align-items:center;width:300px;
+		height:80px;margin:10px auto;background-color:#E6E6FA;}
+	.edit input{padding: 8px 15px;font-size: 120%;margin: 0px auto}
+	.add{width: 50px;}
+	</style>
+</head>
+<body>
+	<div class="control">
+		<input type="button" value="广度遍历">
+		<input type="button" value="深度遍历">
+		<input type="text" class="explore">
+		<input type="button" value="广度搜索">
+		<input type="button" value="深度搜索">
+	</div>
+	
+	<div class="edit">
+		<input type="text" class="add">
+		<input type="button" value="添加">
+		<input type="button" value="删除">
+	</div>
+	<div class="wrap" id="wrap">
+		hobby
+		<div class="child-a a1">
+			music
+			<div class="child-b b1">
+				Rock
+				<div class="child-c c1">Punk</div>
+				<div class="child-c c1">Brit</div>
+				<div class="child-c c1">Hard</div>
+				<div class="child-c c1">Post</div>				
+			</div>
+			<div class="child-b b2">
+				folk
+				<div class="child-c c1">民谣</div>
+			</div>
+			<div class="child-b b3">
+				jazz
+				<div class="child-c c1">Reg</div>
+				<div class="child-c c1">Bossa</div>
+			</div>
+		</div>
+		<div class="child-a a2">
+			read
+			<div class="child-b b4">
+				his-
+				<div class="child-c c1">Am</div>
+				<div class="child-c c1">En</div>
+				<div class="child-c c1">Jp</div>
+			</div>
+			<div class="child-b b5">
+				文学
+				<div class="child-c c2">
+					小说
+					<div class="child-d d">科幻</div>
+				</div>
+				<div class="child-c c1">随笔</div>
+			</div>
+		</div>
+		<div class="child-a a3">programming</div>
+	</div>
+		
+<script src="app.js"></script>
+<script src="event.js"></script>
+</body>
+</html>

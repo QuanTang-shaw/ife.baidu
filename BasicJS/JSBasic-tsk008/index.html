@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	body{background-color: black;}
+	.wrap,.child-a,.child-b,.child-c{display: flex;justify-content:center;border: solid 1px;}
+	.child-a,.child-b,.child-c,.child-d{border: dotted 1px #FEF1F9;margin:20px auto;}
+	.a1{width: 600px; }.a2{width: 480px;}.a3{width: 150px;}
+	.b1{width: 260px;}.b2{width: 90px;}.b3{width: 170px;}.b4{width: 220px;}.b5{width: 210px;}
+	.c1{width:50px;height: 100px;}.c2{width:100px;height: 100px;}
+	.d{width: 50px;}
+	.wrap{width: 1300px;margin: 30px auto;background-color:#EA2EA5;color:#ffffff;font-weight: bolder; }
+	span{margin-top: 15px;color:#ffffff;font-weight: bolder;}
+	.control{display: flex;justify-content:center;align-items:center;width:700px;
+		height:80px;margin:20px auto;background-color:#E6E6FA;}
+	.control input{padding: 8px 15px;font-size: 120%;margin: 0px auto}
+	.explore{width: 80px;}
+	.found{background-color: red;}
+	</style>
+</head>
+<body>
+	<div class="control">
+		<input type="button" value="广度遍历">
+		<input type="button" value="深度遍历">
+		<input type="text" class="explore">
+		<input type="button" value="广度搜索">
+		<input type="button" value="深度搜索">
+	</div>
+
+	<div class="wrap" id="wrap">
+		hobby
+		<div class="child-a a1">
+			music
+			<div class="child-b b1">
+				Rock
+				<div class="child-c c1">Punk</div>
+				<div class="child-c c1">Brit</div>
+				<div class="child-c c1">Hard</div>
+				<div class="child-c c1">Post</div>				
+			</div>
+			<div class="child-b b2">
+				folk
+				<div class="child-c c1">民谣</div>
+			</div>
+			<div class="child-b b3">
+				jazz
+				<div class="child-c c1">Reg</div>
+				<div class="child-c c1">Bossa</div>
+			</div>
+		</div>
+		<div class="child-a a2">
+			read
+			<div class="child-b b4">
+				his-
+				<div class="child-c c1">Am</div>
+				<div class="child-c c1">En</div>
+				<div class="child-c c1">Jp</div>
+			</div>
+			<div class="child-b b5">
+				文学
+				<div class="child-c c2">
+					小说
+					<div class="child-d d">科幻</div>
+				</div>
+				<div class="child-c c1">随笔</div>
+			</div>
+		</div>
+		<div class="child-a a3">programming</div>
+	</div>
+		
+<script>
+		var oInput=document.querySelectorAll('input'),
+			btn_scopeOrder=oInput[0],
+			btn_depthOrder=oInput[1],
+			btn_scopeSearch=oInput[3],
+			btn_depthSearch=oInput[4],
+			orderList=[],
+			wrap=document.getElementById('wrap'),
+			timer=null,
+			index=0,
+			lock;
+
+		btn_scopeOrder.onclick=function () {
+			reset();
+			scopeOrder(wrap);
+			render();
+		}
+
+		btn_depthOrder.onclick=function () {
+			reset();
+			depthOrder(wrap);
+			render();
+		}
+
+		btn_scopeSearch.onclick=function(){
+		var	find=oInput[2].value.trim();
+			reset();
+			scopeOrder(wrap);
+			render(find,true);
+		}
+
+		btn_depthSearch.onclick=function(){
+		var	find=oInput[2].value.trim();
+			reset();
+			depthOrder(wrap);
+			render(find,true);
+		}
+
+		var scopeOrder=function (ele) {
+			if(!(ele==null)){
+				orderList.push(ele);
+				scopeOrder(ele.nextElementSibling);
+				ele=orderList[index++];
+				scopeOrder(ele.firstElementChild);	
+			}
+		}
+
+		var depthOrder=function (ele) {
+			if(!(ele==null)){
+				orderList.push(ele);
+				for (var i = 0; i < ele.children.length; i++) {
+					depthOrder(ele.children[i]);
+				}
+			}
+		}
+
+		var render=function (find,searched) {
+			console.log(orderList);
+
+			var i=0;
+			orderList[i].style.backgroundColor='DarkMagenta';
+			timer=setInterval(function () {
+				if(i<orderList.length-1){
+					i++;
+					var	text=orderList[i].innerText.replace(/(^\s*|\s*$)/,"").toLowerCase();
+
+					if (text==find) {
+						orderList[i].style.backgroundColor='red';
+						clearInterval(timer);
+					}
+					else{
+						orderList[i-1].style.backgroundColor='#EA2EA5';
+						orderList[i].style.backgroundColor='DarkMagenta';
+					}							
+					
+				}
+				else{
+				clearInterval(timer);
+				orderList[i].style.backgroundColor='#EA2EA5';
+				if (searched) {
+					alert("没有找到，请确定您的输入是否有误！");
+					}
+				}				
+			}, 500);
+		}
+
+		var reset=function () {
+			orderList=[];
+			clearInterval(timer);
+			index=0;
+		var oDiv=wrap.getElementsByTagName('div');
+			for (var i = 0; i < oDiv.length; i++) {
+				oDiv[i].style.backgroundColor='#EA2EA5';
+			}
+		}
+</script>
+</body>
+</html>

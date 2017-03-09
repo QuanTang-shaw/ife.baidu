@@ -15,6 +15,7 @@
             line-height: 50px;
             background-color: red;
             color: #FFFFFF;
+            cursor: pointer;
 		}
 	</style>
 </head>
@@ -46,7 +47,7 @@
  * 初始化
  */
 
- */
+ 
 	(function () {
 		
 		var oInput=document.querySelectorAll('input'),
@@ -116,17 +117,20 @@
 				str+="<div>"+parseInt(cur)+"</div>";
 				});
 			display.innerHTML=str;
+			this.addDel();
 			},
 			delete:function (ID) {
 				this.str.splice(ID, 1);
 				this.paint();
 			},
 			addDel:function () {
+				var self=this;
 				for (let i = 0; i < this.display.childNodes.length; i++) {
-					addHandler(this.display.children[i],'cliclk',function () {
-						this.delete(i);
-					})
-				}
+					addHandler(this.display.children[i],'click',function () {
+						self.delete();
+					});
+					}
+				
 			}
 	}
 

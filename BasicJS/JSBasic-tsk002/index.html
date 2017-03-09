@@ -26,7 +26,7 @@ var aqiData = [
 
 
 var getPolluteList=function () {
-  
+
   var polluteList=[];
   for (let i = 0; i < aqiData.length; i++) {
     if (aqiData[i][1]>=60) {
@@ -35,6 +35,7 @@ var getPolluteList=function () {
   }
   return polluteList;
 }
+
 
 var sortList=function (data) {
 

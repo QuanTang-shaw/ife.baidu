@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>task007</title>
+	<style>
+		body{background-color: black;}
+		.wrap,.child-a,.child-b,.child-c{display: flex;justify-content:center;border: solid 1px;align-items: center;background-color:#FFE4C4;}
+		.child-a,.child-b,.child-c{margin: 0px auto;border: dotted 1px #FF1493;}
+		.child-c{width: 50px;height: 100px;}
+		.child-b{width: 150px;height: 150px;}
+		.child-a{width: 400px;height: 250px;}
+		.wrap{width: 900px;height: 350px;margin: 100px auto;}
+		.control{display: flex;justify-content: center;align-items: center;width:400px;
+			height: 80px;margin: -60px auto;background-color:#E6E6FA;}
+		.control input{padding: 8px 15px;font-size: 120%;margin: 0px auto;}
+	</style>
+</head>
+<body>
+	<div class="wrap" id="wrap">
+		<div class="child-a">
+			<div class="child-b">
+				<div class="child-c"></div>
+				<div class="child-c"></div>
+			</div>
+			<div class="child-b">
+				<div class="child-c"></div>
+				<div class="child-c"></div>
+			</div>
+		</div>
+		<div class="child-a">
+			<div class="child-b">
+				<div class="child-c"></div>
+				<div class="child-c"></div>
+			</div>
+			<div class="child-b">
+				<div class="child-c"></div>
+				<div class="child-c"></div>
+			</div>
+		</div>
+	</div>
+	<div class="control">
+		<input type="button" value="前序遍历">
+		<input type="button" value="中序遍历">
+		<input type="button" value="后序遍历">
+	</div>
+
+	<script>
+		var oInput=document.querySelectorAll('input'),
+			btn_preOrder=oInput[0],
+			btn_inOrder=oInput[1],
+			btn_postOrder=oInput[2],
+			orderList=[],
+			wrap=document.getElementById('wrap'),
+			timer=null;
+
+			
+
+		btn_preOrder.onclick=function () {
+			reset();
+			preOrder(wrap);
+			render();
+		}
+
+		btn_inOrder.onclick=function () {
+			reset();
+			inOrder(wrap);
+			render();
+		}
+
+		btn_postOrder.onclick=function () {
+			reset();
+			postOrder(wrap);
+			render();
+		}
+
+		var preOrder=function (ele) {
+			if(!(ele==null)){
+				orderList.push(ele);
+				preOrder(ele.firstElementChild);
+				preOrder(ele.lastElementChild);	
+			}
+		}
+
+		var inOrder=function (ele) {
+			if(!(ele==null)){
+				inOrder(ele.firstElementChild);
+				orderList.push(ele);
+				inOrder(ele.lastElementChild);	
+			}
+		}
+
+		var postOrder=function (ele) {
+			if(!(ele==null)){
+				postOrder(ele.firstElementChild);
+				postOrder(ele.lastElementChild);	
+				orderList.push(ele);
+			}
+		}
+
+		var render=function () {
+			console.log(orderList);
+
+			var i=0;
+			orderList[i].style.backgroundColor='DarkMagenta';
+				timer=setInterval(function () {
+				if(i>orderList.length){
+					clearInterval(timer);
+					orderList[i].style.backgroundColor='#FFE4C4';
+				}
+				i++;
+				// console.log(orderList[i]);
+				orderList[i-1].style.backgroundColor='#FFE4C4';
+				orderList[i].style.backgroundColor='DarkMagenta';
+			}, 500);
+		}
+
+		var reset=function () {
+			orderList=[];
+			clearInterval(timer);
+		var oDiv=wrap.getElementsByTagName('div');
+			for (var i = 0; i < oDiv.length; i++) {
+				oDiv[i].style.backgroundColor='#FFE4C4';
+			}
+		}
+
+	</script>
+</body>
+</html>

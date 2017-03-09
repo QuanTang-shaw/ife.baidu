@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		body{background-color:#AFEEEE;}
+		textarea{position: relative;display: block;margin: 20px auto;}
+		.menu{width: 250px;height: 60px;margin: 0px auto;}
+		p{display: inline;}		
+		#text2{padding: 8px 5px;width: 80px;}
+		#check,#paint{padding:3px 10px;font-size:130%;text-align:center;margin-top:10px;}
+		#display{background-color:#FFFFF0;width: 500px;height: 300px;margin: 0px auto;border: solid 1px #D3D3D3;font-size: 120%;}
+		#display div{display: inline;background-color:#9370D8;margin: 10px;}
+		#display span{background: red;}
+	</style>
+</head>
+<body>
+	<textarea cols="50" rows="10" id="text1"></textarea>
+	<div class="menu">
+		<p><input type="text" id="text2"></p>
+		<input type="button" value="查询" id="check">
+		<input type="button" value="显示" id="paint">
+	</div>
+	<div id="display">
+		
+	</div>
+	<script>
+		/**
+		 * 1.内容：数字、中文、英文；
+		 * 2.回车、逗号、顿号、空格等分割内容；
+		 * 3.查询功能，可以模糊匹配，查询到的结果进行特殊标识；
+		 */
+		 
+		var oTxtAre=document.getElementById('text1'),
+			oInput=document.querySelectorAll('input'),
+			oTxtInput=oInput[0],
+			oBtnCheck=oInput[1],
+			oBtnRender=oInput[2],
+			oDivRender=document.getElementById('display'),
+			arr=[];
+
+		 oBtnRender.onclick=function (){
+		 	var text=oTxtAre.value.trim();
+		 		arr=text.split(/[^0-9a-zA-Z\u4e00-\u9fa5]+/);
+		 		
+		 		render();		 		
+		 }
+		 oBtnCheck.onclick=function () {
+		 	var text=oTxtInput.value.trim();
+		 	render(text);
+		 }
+
+		 function render (str) {
+			
+			oDivRender.innerHTML=arr.map(function(value) {
+				if (str!=null) {
+					value=value.replace(new RegExp(str, 'g'),'<span>'+str+'</span>')
+				} 
+				return '<div>'+value +'</div>'; 		
+				
+			}).join('');	 	 
+		}
+
+	</script>
+</body>
+</html>
