@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{margin: 0px;padding: 0px;}
+	.box{border:solid 2px ;border-radius: 5px;} 
+	.pieceBox{float: left;border-right: solid 1px #BBBBBB;border-bottom: solid 1px #BBBBBB;	width: 40px;height: 40px;background-color:#EDEFEF;}
+	.right-border{border-right:none;}.bottom-border{border-bottom: none;}
+	.piece{width: 40px;height: 32px;border-top: solid 8px red;position: absolute;background-color:#3CC4C4;}
+	.control{ width:300px;font-size: 130%;margin-top:20px;}
+	.control input{padding: 5px 10px;}
+	</style>
+</head>
+<body>
+	<div class="box" id="box">
+		
+	</div>
+
+	<div class="control">
+		<input type="text" id="text">
+		<input type="button" value="执行" id="btn">
+	</div>
+	<script>
+		var LittleBox=function (id,config) {
+			this.wrap=document.querySelector(id);
+			this.init(config);
+		}
+		LittleBox.prototype={
+			init:function (config) {
+				this.createChessBoard(config);
+				this.Width=document.getElementsByClassName("pieceBox")[2].offsetWidth-1;
+				this.Height=document.getElementsByClassName('pieceBox')[2].offsetHeight-1;
+				this.setChessBoard(config.x,config.y);
+				this.createPiece(config);
+				this.piece.status=0;
+				this.rows=config.x;
+				this.cols=config.y;
+				this._self=this;
+
+			},
+			createChessBoard:function (config) {
+				var oFragment=document.createDocumentFragment(),
+					piece,
+					x=config.x,
+					y=config.y;
+				for(var j = 0; j < config.x; j++){
+					for(var k = 0; k <config.y; k++){
+						oFragment.appendChild(
+							this.createBox(
+								{x:x,
+								 y:y,
+								 j:j,
+								 k:k
+								}));						
+					}
+				}
+				this.wrap.appendChild(oFragment);
+			},
+			createBox:function (obj) {
+				pieceBox=document.createElement('div');
+				pieceBox.className='pieceBox';
+				if (obj.k==0&&obj.j>0) {
+					pieceBox.style.clear='both';
+				}
+				if (obj.k==obj.y-1) {
+					pieceBox.className+=' right-border';
+				}
+				if (obj.j==obj.x-1) {
+					pieceBox.className+=' bottom-border';
+				}
+				return pieceBox;
+			},
+			createPiece:function (config) {
+				var leftPos=Math.floor(Math.random()*config.y+0),
+					topPos=Math.floor(Math.random()*config.x+0);
+				var piece=document.createElement('div');
+					piece.className='piece';
+					piece.style.left=leftPos*(this.Width+1)+2+'px';
+					piece.style.top=topPos*(this.Height+1)+2+'px';
+					// piece.style.position="absolute";
+				this.wrap.appendChild(piece);
+				this.piece=piece;
+				this.piece.rotate=0;
+				this.leftPos=leftPos;
+				this.topPos=topPos;
+			},
+			setChessBoard:function (x,y) {
+				this.wrap.style.width=this.Width*y+(y-1)+'px';
+				this.wrap.style.height=this.Height*x+x-1+'px';
+			},
+			move:function () {
+				if(this.piece.status==0){
+					this.topPos>0&&this.topPos--;
+				}
+				if(this.piece.status==1){
+					this.leftPos>0&&this.leftPos--;
+				}
+				if(this.piece.status==2){
+					this.leftPos<this.cols&&this.leftPos--;
+				}
+				if(this.piece.status==3){
+					this.topPos<this.rows&&this.topPos++;
+				}
+				this.piece.style.left=this.leftPos*(this.Width+1)+2+'px';
+				this.piece.style.top=this.topPos*(this.Height+1)+2+'px';				
+			},
+			turn:function (dir) {
+				if (dir==1) {
+					this.piece.rotate-=90;
+					this.piece.status=1;
+				}
+				if (dir==2) {
+					this.piece.rotate+=90;
+					this.piece.status=2;
+				}
+				if (dir==3) {
+					this.piece.rotate+=180;
+					this.piece.status=3;
+				}
+				// this.piece&&
+				this.piece.style.transform='rotate('+this.piece.rotate+'deg)';
+			},
+			instruction:{
+				'GO':function (_this) {
+					_this.move();
+				},
+				'TUN LEF':function (_this) {
+					_this.turn(1);
+				},
+				'TUN RIG':function (_this) {
+					_this.turn(2);
+				},
+				'TUN BAC':function (_this) {
+					_this.turn(3);
+				}
+			}
+		}
+
+	var chessControl=new LittleBox ("#box",{x:10,y:10});
+	var text=document.querySelector('#text');
+	var btn=document.querySelector('#btn');
+
+	btn.addEventListener('click', function () {
+	var	txt=text.value.trim().toUpperCase();
+		chessControl.instruction[txt]&&chessControl.instruction[txt](chessControl._self);
+	} );
+	</script>
+</body>
+</html>

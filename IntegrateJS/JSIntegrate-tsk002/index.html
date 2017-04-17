@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>sheetValidate</title>
+	<style>
+		body{background-color:#FCFCAD; }
+		li{list-style: none;margin-left: 30px;}
+		.li-input{margin-top: 25px;}.li-inf{margin-left: 75px;color: #888888;/*visibility: hidden;*/}.lf{left: -50px;position: relative;}
+		ul{width: 650px;border: dotted 1px;margin: 10px auto;}
+		.wrap{position: relative;background-color: #B3F5A3;margin:30px auto;width: 800px;height:540px;border: solid 1px #AAAAAA;border-radius: 10px;}
+		.sheet{width: 400px;font-size: 120%;padding: 10px 20px;margin-left: 30px;border-radius: 10px;}
+		label{font-size: 150%;font-weight: 900;}
+		/*b{visibility: hidden;}*/
+		.confire{position:absolute;right: 155px;font-size: 150%;font-weight:bolder;padding: 10px 30px;background-color:#11C2EE;color:#F1FCFA;border-radius: 10px; }
+	</style>
+</head>
+<body>
+	<div class="wrap" id="wrap">
+		<ul id="form-ul">
+			<li class="li-input"><label for="sheet1">名称</label><input type="text" class="sheet" id="sheet1"></li>
+			<li class="li-inf"><b class="inf1"></b></li>
+			<li class="li-input"><label for="sheet2">密码</label><input type="text" class="sheet" id="sheet2"></li>
+			<li class="li-inf"><b class="inf2"></b></li>
+			<li class="li-input lf"><label for="sheet3">确认密码</label><input type="text" class="sheet" id="sheet3"></li>
+			<li class="li-inf"><b class="inf3"></b></li>
+			<li class="li-input"><label for="sheet4">手机</label><input type="text" class="sheet" id="sheet4"></li>
+			<li class="li-inf"><b class="inf4"></b></li>
+			<li class="li-input"><label for="sheet5">邮箱</label><input type="text" class="sheet" id="sheet5"></li>
+			<li class="li-inf"><b class="inf5"></b></li>
+		</ul>
+		<input type="button" value="提交" class="confire" id="submit">
+	</div>
+	<script src="ev.js"></script>
+	<script src="tsk002.js"></script>
+</body>
+</html>

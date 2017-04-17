@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		form{width: 700px;margin: 30px auto;}
+		form table{font-size: 130%;font-weight: bolder;}.head{text-align: center;}
+		#city{width: 200px;height: 40px;border-radius: 8px;}#school{width: 200px;height: 40px;border-radius: 8px;}
+		.tr-school{height: 100px;display: none;}.em{width: 100px;}
+		#unit{width: 200px;height: 40px;border-radius: 8px;}.tr-unit{display: none;height: 100px;}
+		#city option{font-size: 130%;font-weight: bolder;}/*.th{text-align: right;}*/
+	</style>
+</head>
+<body>
+	<form action="" id="linkage" >
+		<fieldset>
+			<legend>联动表格</legend>
+			<table >
+				<tr>
+					<td></td>
+					<td class="head"><input type="radio" id="inSchool" name="se-school" checked="checked"><label for="inSchool">在校生</label></td>
+					<td class="em"></td>
+					<td class="head"><input type="radio" id="outSchool" name="se-school"><label for="outSchool">非在校生</label></td>
+				</tr>
+				<tr class="tr-school" id="tr-school">
+					<td class="th">学校</td>
+					<td>
+						<select id="city">
+							<option value="bj">北京</option>
+							<option value="sh">上海</option>
+							<option value="sz">深圳</option>
+							<option value="gz">广州</option>
+						</select>
+					</td>
+					<td></td>
+					<td>
+						<select name="" id="school">
+							<!-- <option value=""></option>
+							<option value=""></option>
+							<option value=""></option>
+							<option value=""></option> -->
+						</select>
+					</td>
+				</tr>
+				<tr class="tr-unit" id="tr-unit">
+					<td>就业单位</td>
+					<td><input type="text" id="unit"></td>
+					<!-- <td></td> -->
+				</tr>
+			</table>	
+		</fieldset>
+	</form>
+<script>
+var $=function (id) {return	typeof id=="string"?document.querySelector(id):id;}
+var oInSchool=$("#inSchool"),
+	oOutSchool=$("#outSchool"),
+	oSelectCity=$("#city"),
+	oSelectSchool=$("#school"),
+	oTrSchool=$("#tr-school"),
+	oTrUnit=$("#tr-unit");
+var schoolList={
+	bj:["北京大学","清华大学","北京电影学院","中央戏剧学院"],
+	sh:["复旦大学","上海交通大学","同济大学","华东师范大学"],
+	gz:["中山大学","华南理工大学","暨南大学","华南师范大学"],
+	sz:["深圳大学","南方科技大学","深圳职业技术学院"]
+}
+oInSchool.onchange=function () {
+	if(oInSchool.checked)
+	{
+		oTrSchool.style.display="table-row";
+		oTrUnit.style.display="none";
+	}
+}
+oOutSchool.onchange=function () {
+	if (oOutSchool.checked) {
+		oTrSchool.style.display="none";
+		oTrUnit.style.display="table-row";
+	}
+}
+oSelectCity.onchange=function (ev) {
+	var city=oSelectCity.value;
+	var text='';
+	oSelectSchool.innerHTML='';
+	for(var k = 0, length= schoolList[city].length; k < length; k++){
+		text+='<option value='+schoolList[city][k]+'>'+schoolList[city][k]+'</option>';
+	}
+	oSelectSchool.innerHTML=text;
+}
+
+window.onload=function (ev) {
+oInSchool.onchange();
+oSelectCity.onchange();
+}
+</script>
+</body>
+</html>

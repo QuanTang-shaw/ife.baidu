@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{margin:0px;padding:0px;}
+		.wrap{width:1024px;height:768px;margin-bottom:10px;/*margin:30px auto;*/border:solid 1px;overflow:hidden;z-index:1;float:left;position:absolute;}
+		.hugeCanvas{/*border:solid 1px;*/z-index:2;left:0px;top:0px;position:absolute;cursor: pointer;}
+		.Thumbnails{display:inline-block;width:290px;height:223px;border:solid 1px;position:absolute;right:10px;}
+		.box{width:100px;height:110px;border:dotted 1px;position:absolute;}
+		.Thumbnails img{position:absolute;}
+		.dis{display:none;}
+	</style>
+</head>
+<body>
+<div class="wrap">
+	<canvas class="hugeCanvas" width="19200" height="10800" >
+	</canvas>
+</div>
+
+<div class="Thumbnails">
+<img src="timg.jpg" width="290" height="223">
+	<div class="box"></div>
+</div>
+<img src="timg.jpg" alt="pic" class="dis">
+
+<script>
+	/**
+	 * [canvas description]
+	 * @type {[type]}
+	 * 
+	 */
+
+	var addHandler=function (ele,event,fn) {
+				if (ele.addEventListener) {
+					ele.addEventListener(event, fn, false);
+				}
+				else if (ele.attachEvent) {
+					ele.attachEvent("on"+event,fn);
+				}
+				else{
+					ele["on"+event]=fn;
+				}
+			};
+
+	var removeHandler=function (ele,event,fn) {
+		if (ele.removeEventListener) {
+			ele.removeEventListener(event, fn, false);
+		}
+		else if (ele.detachEvent) {
+			ele.detachEvent("on"+event,fn);
+		}
+		else{
+			ele["on"+event]=null;
+		}
+	};
+
+
+	var canvas=document.querySelector('.hugeCanvas'),
+		wrap=document.querySelector('.wrap'),
+		img=document.images[0],
+		cx=0,
+		cy=0,
+		context=canvas.getContext?canvas.getContext("2d"):'';
+		draw();
+		function draw() {
+			if(context){
+				console.log(img);
+			context.fillStyle='blue';
+			context.fillRect(0,0,1920,1476);
+			// context.drawImage(img,0,0,1920,1400);
+			}
+		}
+
+
+
+		addHandler(canvas,'mousedown',function drage(ev) {
+			console.log(', var2');
+			cx=ev.x-canvas.offsetLeft,
+			cy=ev.y-canvas.offsetTop;
+			addHandler(canvas,'mousemove',move);
+			addHandler(document,'mouseup',function () {
+				removeHandler(canvas,'mousemove',move);
+			});
+		});
+
+		function move(ev) {
+			canvas.style.left=ev.x-cx+'px';
+			canvas.style.top=ev.y-cy+'px';		
+		}
+
+
+		/*	wrap.onmousedown=function (ev) {
+			// ev.stopPropagation();
+			console.log(', var2');
+			cx=ev.x-wrap.offsetLeft,
+			cy=ev.y-wrap.offsetTop;
+			wrap.onmousemove=function (e) {
+				console.log(cx);
+				wrap.style.left=e.x-cx+'px';
+				wrap.style.top=e.y-cy+'px';
+				
+			}
+			document.onmouseup=function () {
+				console.log(cx);
+
+					wrap.onmousemove=null;
+					wrap.onmouseup=null;
+			}
+
+		}*/
+</script>
+<script src="/src/jquery-3.1.1.min.js"></script>
+</body>
+</html>
+
+
+
