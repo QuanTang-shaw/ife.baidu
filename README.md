@@ -1,2 +1,1 @@
-# ife.baidu
-JSBasic-001
+# learn js
